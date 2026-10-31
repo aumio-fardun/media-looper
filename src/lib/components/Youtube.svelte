@@ -73,6 +73,8 @@
 
     ctx.store.setCell('medias', sourceId, 'lastLoopPlay', Date.now())
 
+    ctx.store.setCell('medias', sourceId, 'lastLoopId', loopId)
+
     activeLoop = loopId
   }
 
