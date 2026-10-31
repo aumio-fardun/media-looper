@@ -38,6 +38,25 @@
     popupVisible = false
   })
 
+  $effect(() => {
+  const currentSourceId = sourceId;
+  if (!currentSourceId) return;
+
+  const savedLoopId = ctx.store.getCell(
+    'medias',
+    currentSourceId,
+    'lastLoopId'
+  ) as Id | undefined;
+
+  if (!savedLoopId) return;
+
+  const savedLoop = controllerComponent?.getLoop(savedLoopId);
+
+  if (savedLoop?.source === currentSourceId) {
+    activeLoop = savedLoopId;
+  }
+});
+
   let activeComponent: ActiveLoop | undefined = $state()
   let controllerComponent: LoopsController | undefined = $state()
   let jumpBackComponent: JumpBack | undefined = $state();
@@ -72,6 +91,8 @@
     if (!sourceId) return
 
     ctx.store.setCell('medias', sourceId, 'lastLoopPlay', Date.now())
+
+    ctx.store.setCell('medias', sourceId, 'lastLoopId', loopId)
 
     activeLoop = loopId
   }
